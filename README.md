@@ -17,3 +17,12 @@ Before you start, make sure you have the following installed:
 ```bash
 git clone https://github.com/yourusername/yourrepository.git
 cd yourrepository
+
+
+
+
+### 2. Run the following commands
+
+```bash
+.\gradlew clean build
+docker-compose up --build
