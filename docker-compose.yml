@@ -7,11 +7,13 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: springboot-container
+#    container_name: springboot-container
+    deploy:
+      replicas: 2
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-    ports:
-      - "8081:8081"  # Exposing port 8081 of the Spring Boot app
+#    ports:
+#      - "8081:8081"  # Exposing port 8081 of the Spring Boot app
     depends_on:
       - mysql-db
     networks:
