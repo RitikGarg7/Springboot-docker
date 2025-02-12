@@ -1,3 +1,4 @@
 # Dockerfile for Frontend
 FROM nginx:alpine
-COPY ./frontend /usr/share/nginx/html
+COPY frontend/nginx.conf /etc/nginx/nginx.conf
+COPY frontend/index.html /usr/share/nginx/html/
