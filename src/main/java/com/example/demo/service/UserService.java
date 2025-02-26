@@ -23,6 +23,7 @@ public class UserService {
     // Get user by ID
     @Cacheable(value = "users", key = "#id")
     public Optional<User> getUserById(Long id) {
+        System.out.println("going for database call");
         return userRepository.findById(id);
     }
 

@@ -12,10 +12,14 @@ services:
       replicas: 2
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - SPRING_REDIS_PASSWORD=foobared
 #    ports:
 #      - "8081:8081"  # Exposing port 8081 of the Spring Boot app
     depends_on:
       - mysql-db
+      - redis
     networks:
       - app-network
 
@@ -32,7 +36,6 @@ services:
     networks:
       - app-network
 
-
   mysql-db:
     image: mysql:8.0  # Using official MySQL image from Docker Hub
     container_name: mysql-container
@@ -48,6 +51,20 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql  # Persisting MySQL data between container restarts
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount the init script
+
+  redis:
+    image: redis:latest
+    container_name: redis-cache
+    restart: always
+    command: ["redis-server", "--requirepass", "foobared"]  # Enable authentication
+    environment:
+      - REDIS_PASSWORD=foobared
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+    volumes:
+      - redis-data:/data
 
   prometheus:
     image: prom/prometheus:latest
@@ -76,4 +93,6 @@ networks:
 
 volumes:
   mysql-data:
+    driver: local
+  redis-data:
     driver: local
